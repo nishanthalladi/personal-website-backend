@@ -20,4 +20,4 @@ ENV FLASK_APP=app.py
 ENV FLASK_ENV=production
 
 # Start the Flask app on the Render-assigned port
-CMD ["flask", "run", "--host=0.0.0.0", "--port=$PORT"]
+CMD flask run --host=0.0.0.0 --port=$PORT
