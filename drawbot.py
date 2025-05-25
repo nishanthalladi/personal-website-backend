@@ -1,11 +1,34 @@
 from stockfish import Stockfish
+import requests
 
 # Use the default path for systems with stockfish installed via apt (e.g. Dockerfile setup)
-stockfish = Stockfish(path="/usr/games/stockfish")
-# stockfish = Stockfish(path="/Users/nishu/Local/chess/stockfish/stockfish")
+# stockfish = Stockfish(path="/usr/games/stockfish")
+stockfish = Stockfish(path="/Users/nishu/Local/chess/stockfish/stockfish")
 stockfish.set_skill_level(20)
 
+def get_lichess_drawish_move(fen_string: str) -> dict:
+    url = f"https://lichess.org/api/cloud-eval?fen={fen_string}"
+    try:
+        response = requests.get(url)
+        if response.status_code != 200:
+            return None
+        result = response.json()
+        move_str = result.get('pvs', [{}])[0].get('moves', '').split()[0] if result.get('pvs') else None
+        if move_str and len(move_str) >= 4:
+            return {
+                'from': move_str[:2],
+                'to': move_str[2:4],
+                'uci': move_str
+            }
+    except Exception:
+        pass
+    return None
+
 def get_drawish_move_from_fen(fen_string: str) -> dict:
+    # Try Lichess first
+    lichess_result = get_lichess_drawish_move(fen_string)
+    if lichess_result:
+        return lichess_result
     try:
         stockfish.set_fen_position(fen_string)
         top_moves = stockfish.get_top_moves(10)
