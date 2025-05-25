@@ -2,8 +2,8 @@ from stockfish import Stockfish
 import requests
 
 # Use the default path for systems with stockfish installed via apt (e.g. Dockerfile setup)
-# stockfish = Stockfish(path="/usr/games/stockfish")
-stockfish = Stockfish(path="/Users/nishu/Local/chess/stockfish/stockfish")
+stockfish = Stockfish(path="/usr/games/stockfish")
+# stockfish = Stockfish(path="/Users/nishu/Local/chess/stockfish/stockfish")
 stockfish.set_skill_level(20)
 
 def get_lichess_drawish_move(fen_string: str) -> dict:
