@@ -1,8 +1,8 @@
 from stockfish import Stockfish
 
 # Use the default path for systems with stockfish installed via apt (e.g. Dockerfile setup)
-# stockfish = Stockfish(path="/usr/games/stockfish")
-stockfish = Stockfish(path="/Users/nishu/Local/chess/stockfish/stockfish")
+stockfish = Stockfish(path="/usr/games/stockfish")
+# stockfish = Stockfish(path="/Users/nishu/Local/chess/stockfish/stockfish")
 stockfish.set_skill_level(20)
 
 def get_drawish_move_from_fen(fen_string: str) -> dict:
